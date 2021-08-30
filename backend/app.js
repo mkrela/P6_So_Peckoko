@@ -1,12 +1,8 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-// const helmet = require('helmet');
-const Sauce = require("./models/sauce");
-const path = require("path");
-require("dotenv").config();
 
-
-const app = express();
+const userRoutes = require('./routes/user')
 
 mongoose
   .connect(
@@ -15,6 +11,8 @@ mongoose
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
+
+const app = express();
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,41 +27,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/sauces", (req, res, next) => {
-  this.delete.req.body._id;
-  const sauce = new Sauce({
-    ...req.body,
-  });
-  sauce.save()
-  .then(() => res.status(201).json({message: 'objet enregistré'}))
-  .catch(error => res.status(400).json({error}))
-});
+app.use(bodyParser.json());
 
-app.use("./sauces", (req, res, next) => {
-  const sauces = [
-    {
-      _id: "sauce1",
-      title: "amora",
-      description: "de la bonne mayo",
-      imageUrl: "",
-      price: 5000,
-      userId: "ola",
-    },
-    {
-      _id: "sauce2",
-      title: "ama",
-      description: "de la mayo",
-      imageUrl: "",
-      price: 500,
-      userId: "ola2",
-    },
-  ];
-  console.log("allooooofoooo");
-  res.status(200).json(sauces);
-});
+app.use('api/auth', userRoutes);
 
-app.use((req, res, next) => {
-  res.json({ message: "Votre requête a bien été reçue!" });
-});
+
 
 module.exports = app;
