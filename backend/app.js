@@ -5,8 +5,6 @@ const Sauce = require("./models/sauce");
 const path = require("path");
 require("dotenv").config();
 
-const userRoutes = require("./routes/user");
-const sauceRoutes = require("./routes/sauces");
 
 const app = express();
 
@@ -31,7 +29,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/sauce", (req, res, next) => {
+app.post("/sauces", (req, res, next) => {
   this.delete.req.body._id;
   const sauce = new Sauce({
     ...req.body,
@@ -41,7 +39,7 @@ app.post("/api/sauce", (req, res, next) => {
   .catch(error => res.status(400).json({error}))
 });
 
-app.use("./api/sauces", (req, res, next) => {
+app.use("./sauces", (req, res, next) => {
   const sauces = [
     {
       _id: "sauce1",
@@ -65,7 +63,7 @@ app.use("./api/sauces", (req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  res.json({ message: "Votre requête a bien été r!" });
+  res.json({ message: "Votre requête a bien été reçue!" });
 });
 
 module.exports = app;

@@ -1,6 +1,13 @@
 const http = require('http');
 const app = require('./app');
 
+
+// Pour résoudre error de création d'user depuis le front 
+const cors = require('cors');
+app.use(cors());
+// ------------------------------------------------------
+
+
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
