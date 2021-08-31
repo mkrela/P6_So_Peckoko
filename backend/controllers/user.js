@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -10,11 +11,12 @@ exports.signup = (req, res, next) => {
         password: hash,
       });
       user
-        .save()
+        .saveOne()
         .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
         .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
+  next();
 };
 
 exports.login = (req, res, next) => {
