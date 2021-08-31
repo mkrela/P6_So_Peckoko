@@ -1,8 +1,9 @@
+require('dotenv').config()
 const express = require("express");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const path = require("path");
-
+const helmet = require('helmet');
 
 const userRoutes = require("./routes/user");
 const sauceRoutes = require("./routes/sauces");
@@ -12,11 +13,12 @@ const app = express();
 // Connexion à la base de donnée MongoDB -------------------------
 mongoose
   .connect(
-    "mongodb+srv://mkrela:mattfado57@projet6.ldg9u.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    `mongodb+srv://${process.env.DBUSER}:${process.env.DBPASS}@${process.env.DBNAME}.ldg9u.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
+
 
 //  Résolution du problème de CORS -------------------------------
 
@@ -33,6 +35,8 @@ app.use((req, res, next) => {
   next();
 });
 
+//  
+app.use(helmet());
 app.use(bodyParser.json());
 
 app.use("/images", express.static(path.join(__dirname, "images")));

@@ -49,8 +49,8 @@ exports.addOneVote = (req, res, next) => {
         Sauce.findOne({_id: req.params.id})
             .then(sauce => {
                 console.time("test1");
-                sauce.usersLiked = [...new Set(sauce.usersLiked)]; //enlève doublon
-                sauce.usersDisliked = [...new Set(sauce.usersDisliked)]; //enlève doublon
+                sauce.usersLiked = [...new Set(sauce.usersLiked)]; //enlève doublon//
+                sauce.usersDisliked = [...new Set(sauce.usersDisliked)]; //enlève doublon//
                 console.timeEnd("test1");
                 console.time("test2");
                 switch (req.body.like) {

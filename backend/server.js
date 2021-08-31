@@ -1,5 +1,9 @@
+// Génère package HTTP
 const http = require('http');
+
+// Génère le fichier APP.JS
 const app = require('./app');
+require('dotenv').config()
 
 
 // Pour résoudre error de création d'user depuis le front 
@@ -22,6 +26,7 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+// Pour gérer les erreurs de la bonne manière 
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -51,4 +56,5 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
+// écoute le port par défaut, sinon le port 3000
 server.listen(port);
